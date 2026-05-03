@@ -1,0 +1,43 @@
+.stage-col {
+  background: #f0eeea;
+  border: 0.5px solid #e0dfd8;
+  border-radius: 12px;
+  padding: 1rem;
+  min-height: 180px;
+}
+
+.stage-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.stage-title {
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.stage-col--backlog .stage-title { color: #888780; }
+.stage-col--todo    .stage-title { color: #185fa5; }
+.stage-col--ongoing .stage-title { color: #854f0b; }
+.stage-col--done    .stage-title { color: #3b6d11; }
+
+.stage-count {
+  font-size: 12px;
+  font-weight: 500;
+  background: #e8e7e1;
+  color: #666;
+  border-radius: 99px;
+  padding: 1px 8px;
+}
+
+.stage-empty {
+  font-size: 13px;
+  color: #aaa;
+  text-align: center;
+  padding: 2rem 0 1rem;
+  font-style: italic;
+}

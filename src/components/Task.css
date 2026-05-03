@@ -1,0 +1,23 @@
+.task-card {
+  background: #ffffff;
+  border: 0.5px solid #e0dfd8;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: border-color 0.15s;
+  user-select: none;
+}
+
+.task-card:hover {
+  border-color: #b4b2a9;
+}
+
+.task-card--selected {
+  border-color: #85b7eb;
+  background: #e6f1fb;
+  color: #185fa5;
+  box-shadow: 0 0 0 2px rgba(24, 95, 165, 0.12);
+}

@@ -1,114 +1,110 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import Controls from './components/Controls';
 import Board from './components/Board';
 
-class App extends Component {
-  constructor(props) {
-    super(props);
+function App() {
 
-    this.state = {
-      newTask: '',
-      selectedTask: null,
-      stagesTasks: [
-        ['task 0', 'task 1', 'task 2', 'task 3'], // Backlog
-        ['task 4', 'task 5', 'task 6'],           // To Do
-        ['task 7', 'task 8'],                     // Ongoing
-        []                                       // Done
-      ]
-    };
+  const [newTask, setNewTask] = useState('');
+  const [selectedTask, setSelectedTask] = useState(null);
+  const [stagesTasks, setStagesTasks] = useState([
+    ['task 0', 'task 1', 'task 2', 'task 3'], // Backlog
+    ['task 4', 'task 5', 'task 6'],           // To Do
+    ['task 7', 'task 8'],                     // Ongoing
+    []                                       // Done
+  ]);
 
-    this.stagesNames = ['Backlog', 'To Do', 'Ongoing', 'Done'];
-  }
+  const stagesNames = ['Backlog', 'To Do', 'Ongoing', 'Done'];
 
   // Create Task
-  createTask = () => {
-    const { newTask, stagesTasks } = this.state;
+  const createTask = () => {
     if (!newTask) return;
 
-    stagesTasks[0].push(newTask);
+    const updated = [...stagesTasks];
+    updated[0] = [...updated[0], newTask];
 
-    this.setState({ stagesTasks, newTask: '' });
+    setStagesTasks(updated);
+    setNewTask('');
   };
 
   // Select Task
-  selectTask = (stageIndex, taskIndex) => {
-    this.setState({
-      selectedTask: { stageIndex, taskIndex }
-    });
+  const selectTask = (stageIndex, taskIndex) => {
+    setSelectedTask({ stageIndex, taskIndex });
   };
 
   // Move Forward
-  moveForward = () => {
-    const { selectedTask, stagesTasks } = this.state;
+  const moveForward = () => {
     if (!selectedTask) return;
 
     const { stageIndex, taskIndex } = selectedTask;
     if (stageIndex === stagesTasks.length - 1) return;
 
-    const task = stagesTasks[stageIndex][taskIndex];
-    stagesTasks[stageIndex].splice(taskIndex, 1);
-    stagesTasks[stageIndex + 1].push(task);
+    const updated = stagesTasks.map(stage => [...stage]);
+    const task = updated[stageIndex][taskIndex];
 
-    this.setState({ stagesTasks, selectedTask: null });
+    updated[stageIndex].splice(taskIndex, 1);
+    updated[stageIndex + 1].push(task);
+
+    setStagesTasks(updated);
+    setSelectedTask(null);
   };
 
   // Move Back
-  moveBack = () => {
-    const { selectedTask, stagesTasks } = this.state;
+  const moveBack = () => {
     if (!selectedTask) return;
 
     const { stageIndex, taskIndex } = selectedTask;
     if (stageIndex === 0) return;
 
-    const task = stagesTasks[stageIndex][taskIndex];
-    stagesTasks[stageIndex].splice(taskIndex, 1);
-    stagesTasks[stageIndex - 1].push(task);
+    const updated = stagesTasks.map(stage => [...stage]);
+    const task = updated[stageIndex][taskIndex];
 
-    this.setState({ stagesTasks, selectedTask: null });
+    updated[stageIndex].splice(taskIndex, 1);
+    updated[stageIndex - 1].push(task);
+
+    setStagesTasks(updated);
+    setSelectedTask(null);
   };
 
   // Delete Task
-  deleteTask = () => {
-    const { selectedTask, stagesTasks } = this.state;
+  const deleteTask = () => {
     if (!selectedTask) return;
 
     const { stageIndex, taskIndex } = selectedTask;
-    stagesTasks[stageIndex].splice(taskIndex, 1);
+    const updated = stagesTasks.map(stage => [...stage]);
 
-    this.setState({ stagesTasks, selectedTask: null });
+    updated[stageIndex].splice(taskIndex, 1);
+
+    setStagesTasks(updated);
+    setSelectedTask(null);
   };
 
-  render() {
-    const { newTask, selectedTask, stagesTasks } = this.state;
+  const selectedTaskName =
+    selectedTask !== null
+      ? stagesTasks[selectedTask.stageIndex][selectedTask.taskIndex]
+      : '';
 
-    const selectedTaskName =
-      selectedTask !== null
-        ? stagesTasks[selectedTask.stageIndex][selectedTask.taskIndex]
-        : '';
+  return (
+    <div className="App">
+      <Controls
+        newTask={newTask}
+        setNewTask={setNewTask}
+        createTask={createTask}
+        selectedTaskName={selectedTaskName}
+        moveBack={moveBack}
+        moveForward={moveForward}
+        deleteTask={deleteTask}
+        selectedTask={selectedTask}
+        stagesTasks={stagesTasks}
+      />
 
-    return (
-      <div className="App">
-        <Controls
-          newTask={newTask}
-          setNewTask={(val) => this.setState({ newTask: val })}
-          createTask={this.createTask}
-          selectedTaskName={selectedTaskName}
-          moveBack={this.moveBack}
-          moveForward={this.moveForward}
-          deleteTask={this.deleteTask}
-          selectedTask={selectedTask}
-          stagesTasks={stagesTasks}
-        />
-
-        <Board
-          stagesNames={this.stagesNames}
-          stagesTasks={stagesTasks}
-          selectTask={this.selectTask}
-        />
-      </div>
-    );
-  }
+      <Board
+        stagesNames={stagesNames}
+        stagesTasks={stagesTasks}
+        selectTask={selectTask}
+      />
+    </div>
+  );
 }
 
 export default App;

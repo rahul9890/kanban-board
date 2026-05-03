@@ -1,5 +1,5 @@
 import React from 'react';
-import Task from './Task';
+import Task from '../Task/Task';
 import './Stage.css';
 
 const stageClasses = ['backlog', 'todo', 'ongoing', 'done'];

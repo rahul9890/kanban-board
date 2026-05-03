@@ -1,5 +1,5 @@
 import React from 'react';
-import Stage from './Stage';
+import Stage from '../Stage/Stage';
 import './Board.css';
 
 const Board = ({ stagesNames, stagesTasks, selectTask }) => {

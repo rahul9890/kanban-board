@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
-import Controls from './components/Controls';
-import Board from './components/Board';
+import Controls from './components/Controls/Controls';
+import Board from './components/Board/Board';
 
 function App() {
 
